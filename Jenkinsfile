@@ -1,34 +1,33 @@
-pipeline {
-    agent any 
-    stages {
-        stage('Static Analysis') {
-            steps {
-                echo 'Run the static analysis to the code' 
+pipeline{
+    agent any
+    stages{
+        stage ('Plan phase'){
+            steps{
+                echo 'Hi. This is Shree Jaswal'
             }
         }
-        stage('Compile') {
-            steps {
-                echo 'Compile the source code' 
+        stage ('code phase'){
+            steps{
+                input('Do you want to continue?')
             }
         }
-        stage('Security Check') {
+        stage ('integrate phase'){
+            when{
+                not{
+                    branch "master"
+                }
+            }
             steps {
-                echo 'Run the security check against the application' 
+                echo 'Integration test passed'
             }
         }
-        stage('Run Unit Tests') {
-            steps {
-                echo 'Run unit tests from the source code' 
-            }
-        }
-        stage('Run Integration Tests') {
-            steps {
-                echo 'Run only crucial integration tests from the source code' 
-            }
-        }
-        stage('Publish Artifacts') {
-            steps {
-                echo 'Save the assemblies generated from the compilation' 
+        stage ('testing phase'){
+            parallel{
+                stage ('unit test'){
+                    steps{
+                        echo 'running unit test'
+                    }
+                }
             }
         }
     }
