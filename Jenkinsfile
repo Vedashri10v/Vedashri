@@ -9,50 +9,32 @@ pipeline {
             }
         }
 
-        stage('Code phase') {
+        stage('code phase') {
             steps {
-                input 'Do you want to continue?'
+                input('Do you want to continue?')
             }
         }
 
-        stage('Security Check') {
-            steps {
-                echo 'Run the security check against the application'
-            }
-        }
-
-        stage('Integrate phase') {
+        stage('integrate phase') {
             when {
                 not {
-                    branch 'master'
+                    branch "master"
                 }
             }
             steps {
-                echo 'Integrating code changes'
+                echo 'Integration test passed'
             }
         }
 
-        stage('Testing phase') {
+        stage('testing phase') {
             parallel {
 
-                stage('Unit Test') {
+                stage('unit test') {
                     steps {
-                        echo 'Running unit test'
+                        echo 'running unit test'
                     }
                 }
 
-                stage('Integration Test') {
-                    steps {
-                        echo 'Integration test passed'
-                    }
-                }
-
-            }
-        }
-
-        stage('Publish Artifacts') {
-            steps {
-                echo 'Save the assemblies generated from the compilation'
             }
         }
 
