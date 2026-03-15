@@ -1,42 +1,35 @@
 pipeline {
-    agent any
-
+    agent any 
     stages {
-
-        stage('Plan phase') {
+        stage('Static Analysis') {
             steps {
-                echo 'Hi. This is Vedashri Choudhary'
+                echo 'Run the static analysis to the code' 
             }
         }
-
-        stage('code phase') {
+        stage('Compile') {
             steps {
-                input('Do you want to continue?')
+                echo 'Compile the source code' 
             }
         }
-
-        stage('integrate phase') {
-            when {
-                not {
-                    branch "master"
-                }
-            }
+        stage('Security Check') {
             steps {
-                echo 'Integration test passed'
+                echo 'Run the security check against the application' 
             }
         }
-
-        stage('testing phase') {
-            parallel {
-
-                stage('unit test') {
-                    steps {
-                        echo 'running unit test'
-                    }
-                }
-
+        stage('Run Unit Tests') {
+            steps {
+                echo 'Run unit tests from the source code' 
             }
         }
-
+        stage('Run Integration Tests') {
+            steps {
+                echo 'Run only crucial integration tests from the source code' 
+            }
+        }
+        stage('Publish Artifacts') {
+            steps {
+                echo 'Save the assemblies generated from the compilation' 
+            }
+        }
     }
 }
