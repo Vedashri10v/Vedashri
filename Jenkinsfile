@@ -1,34 +1,60 @@
-pipeline{
+pipeline {
     agent any
-    stages{
-        stage ('Plan phase'){
-            steps{
-                echo 'Hi. This is Shree Jaswal'
+
+    stages {
+
+        stage('Plan phase') {
+            steps {
+                echo 'Hi. This is Vedashri Choudhary'
             }
         }
-        stage ('code phase'){
-            steps{
-                input('Do you want to continue?')
+
+        stage('Code phase') {
+            steps {
+                input 'Do you want to continue?'
             }
         }
-        stage ('integrate phase'){
-            when{
-                not{
-                    branch "master"
+
+        stage('Security Check') {
+            steps {
+                echo 'Run the security check against the application'
+            }
+        }
+
+        stage('Integrate phase') {
+            when {
+                not {
+                    branch 'master'
                 }
             }
             steps {
-                echo 'Integration test passed'
+                echo 'Integrating code changes'
             }
         }
-        stage ('testing phase'){
-            parallel{
-                stage ('unit test'){
-                    steps{
-                        echo 'running unit test'
+
+        stage('Testing phase') {
+            parallel {
+
+                stage('Unit Test') {
+                    steps {
+                        echo 'Running unit test'
                     }
                 }
+
+                stage('Integration Test') {
+                    steps {
+                        echo 'Integration test passed'
+                    }
+                }
+
             }
         }
+
+        stage('Publish Artifacts') {
+            steps {
+                echo 'Save the assemblies generated from the compilation'
+            }
+        }
+
     }
 }
